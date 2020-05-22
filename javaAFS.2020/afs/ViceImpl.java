@@ -11,6 +11,9 @@ public class ViceImpl extends UnicastRemoteObject implements Vice {
           throws RemoteException {
         //@TODO Crear instancia ViceReaderImpl que se retornara
         ViceReaderImpl reader = new ViceReaderImpl(fileName, mode);
+        if( reader.file == null){
+          return null;
+        }
         return reader;
 
     }

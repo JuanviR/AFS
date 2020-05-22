@@ -15,7 +15,13 @@ public class VenusFile {
             file.open();
         }else{
             try{
-                venus.srv.download(fileName, mode);
+                ViceReaderImpl reader = (ViceReaderImpl)venus.srv.download(fileName, mode);
+                //A partir de ahi vamos a leer el fichero 
+                if(reader != null){
+                    List<Byte> b = new ArrayList<>();
+                    b.add(reader.read(1024));
+                }
+                                //RandomAccessFile f2 = new RandomAccessFile(cacheDir+fileName, file);
             }
         }
     }
