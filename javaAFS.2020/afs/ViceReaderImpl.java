@@ -5,12 +5,18 @@ import java.rmi.*;
 import java.rmi.server.*;
 import java.io.RandomAccessFile;
 
+// Shell
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
     private static final String AFSDir = "AFSDir/";
     private RandomAccessFile file;
 
     public ViceReaderImpl(String fileName, String mode /* añada los parámetros que requiera */)
 		    throws RemoteException {
+		ViceReaderImpl.command("mkdir "+AFSDir);
                 file = new RandomAccessFile(AFSDir+fileName, mode);
                 if(file.exists()){
                     file.open();
@@ -26,5 +32,19 @@ public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
     public void close() throws RemoteException {
         return;
     }
+  //Shell
+  private static void comand (String cmd)
+  {
+    try
+    {
+      Process p = Runtime.getRuntime ().exec (cmd);
+      BufferedReader stdInput =
+	new BufferedReader (new
+			    InputStreamReader (p.getInputStream ()));
+    } catch (java.io.IOException ex)
+    {
+      ex.printStackTrace ();
+    }
+  }
 }       
 
