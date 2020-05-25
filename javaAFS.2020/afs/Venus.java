@@ -11,7 +11,7 @@ public class Venus {
          if (System.getSecurityManager() == null)
             System.setSecurityManager(new SecurityManager());
         try{
-        srv = (Vice) Naming.lookup("//" + args[0] + ":" + args[1] + "/AFS");
+        srv = (Vice) Naming.lookup("//" + System.getenv("REGISTRY_HOST") + ":" + System.getenv("REGISTRY_PORT") + "/AFS");
         } catch (RemoteException e) {
             System.err.println("Error de comunicacion: " + e.toString());
         }
