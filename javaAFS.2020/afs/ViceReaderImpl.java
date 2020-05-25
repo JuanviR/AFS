@@ -12,15 +12,15 @@ import java.io.PrintWriter;
 
 public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
     private static final String AFSDir = "AFSDir/";
-    private RandomAccessFile file;
+    public RandomAccessFile file;
 
     public ViceReaderImpl(String fileName, String mode /* añada los parámetros que requiera */)
 		    throws RemoteException {
-		ViceReaderImpl.command("mkdir "+AFSDir);
+		ViceReaderImpl.comand("mkdir "+AFSDir);
                 file = new RandomAccessFile(AFSDir+fileName, mode);
-                if(file.exists()){
-                    file.open();
-                }
+             /*   if(file.exists()){
+                    System.out.println("This file exist");
+                }*/
                 
                 //@TODO Instanciar un randomFileAccess asociado al archivo que se quiere leer
     }

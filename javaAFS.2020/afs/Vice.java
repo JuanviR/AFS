@@ -4,7 +4,7 @@ package afs;
 import java.rmi.*;
 
 public interface Vice extends Remote {
-    public ViceReader download(String fileName /* añada los parámetros que requiera */)
+    public ViceReader download(String fileName, String mode /* añada los parámetros que requiera */)
           throws RemoteException;
     public ViceWriter upload(String fileName /* añada los parámetros que requiera */)
           throws RemoteException;
