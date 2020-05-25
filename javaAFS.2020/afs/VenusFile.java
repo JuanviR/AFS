@@ -14,7 +14,6 @@ public class VenusFile {
 
     public VenusFile(Venus venus, String fileName, String mode) throws RemoteException, IOException, FileNotFoundException {
         //@TODO Buscamos el fichero en el cache antes de abrirlo desde el servidor
-        this.venus = venus;
 	ViceReaderImpl.command("mkdir "+cacheDir); //shell
         File file = new File(cacheDir+fileName);
         if(file.exists()){
@@ -24,7 +23,7 @@ public class VenusFile {
             reader = (ViceReaderImpl)venus.srv.download(fileName, mode);
             //A partir de ahi vamos a leer el fichero 
             if(reader != null){
-                List<Byte> b = new ArrayList<>();
+                ArrayList<Byte> b = new ArrayList<>();
                 //@TODO Leer todo el fichero
                 b.add(reader.read(1024));
             }

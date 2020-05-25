@@ -1,21 +1,19 @@
 // Implementación de la interfaz de servidor que define los métodos remotos
 // para completar la descarga de un fichero
 package afs;
+import java.io.*;
 import java.rmi.*;
 import java.rmi.server.*;
-import java.io.RandomAccessFile;
 
 // Shell
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+
 
 public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
     private static final String AFSDir = "AFSDir/";
     public RandomAccessFile file;
 
     public ViceReaderImpl(String fileName, String mode /* añada los parámetros que requiera */)
-		    throws RemoteException {
+            throws RemoteException, FileNotFoundException {
 		ViceReaderImpl.comand("mkdir "+AFSDir);
                 file = new RandomAccessFile(AFSDir+fileName, mode);
              /*   if(file.exists()){
@@ -24,7 +22,7 @@ public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
                 
                 //@TODO Instanciar un randomFileAccess asociado al archivo que se quiere leer
     }
-    public byte[] read(int tam) throws RemoteException {
+    public byte[] read(int tam) throws IOException {
         byte[] b = new byte[tam];
         file.read(b, 0, tam);
         return b;
