@@ -17,13 +17,15 @@ public class ViceImpl extends UnicastRemoteObject implements Vice {
   public ViceReader download(String fileName, String mode /* añada los parámetros que requiera */)
       throws RemoteException {
     // @TODO Crear instancia ViceReaderImpl que se retornara
+    //Si hizo esto pero ...
+            System.out.println("Data downloaded desde ViceImpl");
       ViceReaderImpl reader = null;
       
       try {
         reader = new ViceReaderImpl(fileName, mode);
       
 
-      } catch (FileNotFoundException e) {
+      } catch (Exception e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }

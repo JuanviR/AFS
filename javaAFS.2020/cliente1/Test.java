@@ -20,6 +20,9 @@ class Test {
             String fich = s.next();
             String modo ="r";
             if ((s.hasNext()) && s.next().equals("rw")) modo ="rw";
+            //lo he puesto
+            System.out.println("Listo para descargar\n"+venus.toString()+"\n"+fich+"\n"+modo);
+            //
             VenusFile f = new VenusFile(venus, fich, modo);
             descriptorMap.put(desc, f);
             System.out.println("Fichero abierto ID " + desc++);

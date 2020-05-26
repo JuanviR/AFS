@@ -6,7 +6,7 @@ import java.rmi.*;
 
 public class Venus {
 
-    Vice srv;
+    public Vice srv;
     public Venus() {
          if (System.getSecurityManager() == null)
             System.setSecurityManager(new SecurityManager());

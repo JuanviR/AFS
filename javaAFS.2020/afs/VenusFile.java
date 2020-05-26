@@ -29,8 +29,9 @@ public class VenusFile {
         this.file = null;
         final File file2 = new File(cacheDir + fileName);
         if (!file2.exists()) {
+            //System.out.println("si llego6");
             reader = (ViceReaderImpl) venus.srv.download(fileName, mode); //It's seems that this line generate an error
-    
+            //Si lo ha creado
             System.out.println("Data downloaded");
             // A partir de ahi vamos a leer el fichero
             if (reader != null) {
