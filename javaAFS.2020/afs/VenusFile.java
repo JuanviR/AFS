@@ -13,7 +13,7 @@ import java.io.*;
 
 public class VenusFile {
     public static final String cacheDir = "Cache/";
-    private ViceReaderImpl reader;
+    private ViceReader reader;
     private RandomAccessFile file;
     private final Venus venus;
     private final String mode;
@@ -28,18 +28,30 @@ public class VenusFile {
         reader = null;
         this.file = null;
         final File file2 = new File(cacheDir + fileName);
-        if (!file2.exists()) {
-            //System.out.println("si llego6");
-            reader = (ViceReaderImpl) venus.srv.download(fileName, mode); //It's seems that this line generate an error
-            //Si lo ha creado
+
+        if(!file2.exists()){
+            //EL fichero no existe en cache
+            reader = venus.srv.download(fileName, mode); //Tenemos acceso al fichero remoto para poder leerlo mas tarde
+        }else{
+            //El fichero si existe
+            file = new RandomAccessFile(cacheDir + fileName, mode); //No podemos hacer eso antes porque sino creariamos el fichero en el cache. 
+        }
+        /* if (!file2.exists()) {
+            reader = venus.srv.download(fileName, mode); 
             System.out.println("Data downloaded");
             // A partir de ahi vamos a leer el fichero
             if (reader != null) {
                // final List<Byte> b = new ArrayList<>();
                 // @TODO Leer todo el fichero para guardarlo en el cache local
-                file = new RandomAccessFile(cacheDir + fileName, "rw");
-
-                file.write(reader.read(1024));
+                file = new RandomAccessFile(cacheDir + fileName, "rwd");
+                byte[] b = new byte[1024];
+                b = null;
+                b = reader.read(1024);
+                while(b != null){
+                    file.write(b);
+                    b = new byte[1024];
+                    b = reader.read(1024);
+                }
 
             }
             // RandomAccessFile f2 = new RandomAccessFile(cacheDir+fileName, file);
@@ -48,13 +60,44 @@ public class VenusFile {
             System.out.println("Exist");
             file = new RandomAccessFile(cacheDir + fileName, mode);
 
-        }
+        } */ //Esta parte coresponde a la parte de descarga del fichero que vamos a necesitar mas tarde
 
-        file.close();
     }
 
     public int read(byte[] b) throws RemoteException, IOException {
-        b = reader.read(1024);
+        if(file == null){
+            //El fichero es remoto
+            byte[] temp;
+            if(b.length < 1024){
+                temp = new byte[b.length];
+            }else{
+                temp = new byte[1024];
+            }
+            int i = 0;
+            temp = reader.read(temp.length);
+            while(temp != null){
+                for (byte c : temp) {
+                    b[i] = c;
+                    i++;
+                }
+            temp = new byte[1024];
+            if(b.length - i == 0){
+                return i;
+            }else if(b.length - i < 1024){
+                temp = new byte[b.length - i];
+            }else{
+                temp = new byte[1024];
+            }
+            temp = reader.read(temp.length);
+            }
+
+            return i;
+        }else{
+            //El fichero no es remoto
+            int res = file.read(b);
+            System.out.println("Res: \n"+res);
+            return res;
+        }
         //final String file = "cliente.txt";
         //VenusFile.comand("rm " + file);
         //VenusFile.comand("echo >> " + file);
@@ -63,7 +106,6 @@ public class VenusFile {
         //} catch (final Exception e) {
         //}
 
-        return 0;
     }
 
     public void write(final byte[] b) throws RemoteException, IOException {

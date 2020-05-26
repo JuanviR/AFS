@@ -27,6 +27,7 @@ public class ViceImpl extends UnicastRemoteObject implements Vice {
 
       } catch (Exception e) {
         // TODO Auto-generated catch block
+        System.out.println("Problema con el ViceReader");
         e.printStackTrace();
       }
       return reader;       

@@ -1,0 +1,2 @@
+Esto es una prueba para comprobar que soy capaz de recuperar todos los datos que provienen de ese fichero. 
+Por lo tanto es necesario que el tamano de este fichero sea superior a 1024 byte, ya que es el tamano que he elegido para poder descargar los ficheros. 
