@@ -1,1 +1,4 @@
-../cliente1/cliente.permisos
+grant  {
+    permission java.security.AllPermission;
+};
+

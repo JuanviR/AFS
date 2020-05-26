@@ -1,1 +1,5 @@
-../cliente1/ejecuta_test.sh
+#!/bin/sh
+
+set -x
+java -Djava.security.policy=cliente.permisos -cp .:afs_cliente.jar Test $*
+
