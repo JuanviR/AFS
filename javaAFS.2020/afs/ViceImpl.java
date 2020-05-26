@@ -32,8 +32,12 @@ public class ViceImpl extends UnicastRemoteObject implements Vice {
       }
       return reader;       
     }
-    public ViceWriter upload(String fileName /* añada los parámetros que requiera */)
+    public ViceWriter upload(String fileName, String mode /* añada los parámetros que requiera */)
           throws RemoteException {
-        return null;
+            ViceWriterImpl writer = null;
+            try{
+              writer = new ViceWriterImpl(fileName, mode);
+            }
+        return writer;
     }
 }
