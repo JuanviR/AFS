@@ -184,9 +184,23 @@ class Test {
     }
     static private void limpiarCache() {
         File cache = new File("Cache");
-        for(File f: cache.listFiles())
-            f.delete();
-        System.out.println("Borrando Cache...");
+        try{
+            for(File f: cache.listFiles())
+                f.delete();
+            System.out.println("Borrando Cache...");
+        }catch (Exception e) {
+            //TODO: handle exception
+            try
+            {
+                Process p = Runtime.getRuntime ().exec ("mkdir Cache");
+                BufferedReader stdInput =
+                new BufferedReader (new
+                        InputStreamReader (p.getInputStream ()));
+            } catch (java.io.IOException ex)
+            {
+                ex.printStackTrace ();
+            }
+        }
         return;
     }
 
@@ -228,4 +242,7 @@ class Test {
         }
 
     }
+
+    //
+    //
 }

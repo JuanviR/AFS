@@ -27,7 +27,6 @@ public class VenusFile {
         this.mode = mode;
         reader = null;
         this.file = null;
-        VenusFile.comand("mkdir " + cacheDir); // shell
         final File file2 = new File(cacheDir + fileName);
         if (!file2.exists()) {
             reader = (ViceReaderImpl) venus.srv.download(fileName, mode); //It's seems that this line generate an error
@@ -55,13 +54,13 @@ public class VenusFile {
 
     public int read(byte[] b) throws RemoteException, IOException {
         b = reader.read(1024);
-        final String file = "cliente.txt";
-        VenusFile.comand("rm " + file);
-        VenusFile.comand("echo >> " + file);
-        try (FileOutputStream fileOuputStream = new FileOutputStream(file)) {
-            fileOuputStream.write(b);
-        } catch (final Exception e) {
-        }
+        //final String file = "cliente.txt";
+        //VenusFile.comand("rm " + file);
+        //VenusFile.comand("echo >> " + file);
+        //try (FileOutputStream fileOuputStream = new FileOutputStream(file)) {
+        //    fileOuputStream.write(b);
+        //} catch (final Exception e) {
+        //}
 
         return 0;
     }
@@ -81,16 +80,5 @@ public class VenusFile {
     public void close() throws RemoteException, IOException {
         return;
     }
-
-    // shell
-    private static void comand(final String cmd) {
-        try {
-            final Process p = Runtime.getRuntime().exec(cmd);
-            final BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        } catch (final java.io.IOException ex)
-    {
-      ex.printStackTrace ();
-    }
-  }
 }
 
