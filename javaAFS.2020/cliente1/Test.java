@@ -21,7 +21,7 @@ class Test {
             String modo ="r";
             if ((s.hasNext()) && s.next().equals("rw")) modo ="rw";
             //lo he puesto
-            System.out.println("Listo para descargar\n"+venus.toString()+"\n"+fich+"\n"+modo+"\n");
+            //System.out.println("Listo para descargar\n"+venus.toString()+"\n"+fich+"\n"+modo+"\n");
             //
             VenusFile f = new VenusFile(venus, fich, modo);
             descriptorMap.put(desc, f);

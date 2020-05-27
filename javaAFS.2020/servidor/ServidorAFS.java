@@ -16,8 +16,7 @@ class ServidorAFS  {
             System.setSecurityManager(new SecurityManager());
 
         try {
-            //He cambiado esto, pero requiero tu permiso
-            ViceImpl srv = new ViceImpl();
+            Vice srv = new ViceImpl();
             Naming.rebind("rmi://localhost:" + args[0] + "/AFS", srv);
         }
         catch (RemoteException e) {

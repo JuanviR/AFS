@@ -37,6 +37,8 @@ public class ViceImpl extends UnicastRemoteObject implements Vice {
             ViceWriterImpl writer = null;
             try{
               writer = new ViceWriterImpl(fileName, mode);
+            }catch(Exception e){
+              
             }
         return writer;
     }

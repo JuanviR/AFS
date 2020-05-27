@@ -153,7 +153,8 @@ public class VenusFile {
             //En ese caso puede haber modificaciones
             reader.close(); //Vamos a necesitar un writer
             //@TODO verificar que hay modificaciones antes de hacer el writer
-            writer = venus.srv.upload(fileName, mode); // Tenemos acceso al fichero para poder escribir dentro
+            writer = venus.srv.upload(fileName, mode); 
+            // Tenemos acceso al fichero para poder escribir dentro
             
             byte[] temp;
             if(file.length() - initialLength == 0){
