@@ -30,7 +30,7 @@ public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
         byte[] b;
         final long size = file.length();
 
-        if(offset%1024 != 0 && offset != size){
+        if(offset%tam != 0 && offset != size){
             offset = 0;
             file.seek(offset);
         }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.rmi.*;
 import java.rmi.server.*;
+import java.sql.Wrapper;
 import java.util.ArrayList;
 
 public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
@@ -15,16 +16,23 @@ public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
     public int offset;
     private ViceImpl vice;
 
+
     public ViceWriterImpl(String fileName, String mode, Vice vice /* añada los parámetros que requiera */)
             throws RemoteException, FileNotFoundException {
         file = new RandomAccessFile(AFSDir + fileName, mode);
         offset = 0;
         this.vice = (ViceImpl) vice;
+        try {
+            file.seek(0);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     public void write(byte[] b) throws RemoteException {
         try {
-            file.seek((int) file.length());
             file.write(b);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -34,10 +42,11 @@ public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
 
     public void close() throws RemoteException {
         vice.lockManager.writeLock().unlock();
-
+        VenusCB temp;
         try {
             file.close();
             ArrayList<VenusCB> list = ViceImpl.hm.get(vice.fileName);
+            ArrayList<VenusCB> newList = new ArrayList<>();
             list.forEach(i -> {
                 if (i != vice.callback) {
                     try {
@@ -46,8 +55,11 @@ public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                }else{
+                    newList.add(i);
                 }
             });
+            ViceImpl.hm.put(vice.fileName, newList);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
