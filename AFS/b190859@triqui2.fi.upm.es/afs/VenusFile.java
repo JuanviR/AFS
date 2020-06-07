@@ -16,11 +16,10 @@ public class VenusFile {
     private ViceWriter writer;
     private RandomAccessFile file;
     private final Venus venus;
-    public final String mode;
+    private final String mode;
     private final String fileName;
     private boolean fileChange; 
     private VenusCB callback;
-    public boolean invalidate;
     private static int blocksize = Integer.parseInt(System.getenv("BLOCKSIZE"));
 
     public VenusFile(final Venus venus, final String fileName, final String mode) throws RemoteException, IOException {
@@ -30,7 +29,6 @@ public class VenusFile {
         this.mode = mode;
         reader = null;
         this.file = null;
-        invalidate = false;
 
         try {
 
@@ -80,7 +78,6 @@ public class VenusFile {
 
     public int read(byte[] b) throws RemoteException, IOException {
         if (file == null) {
-            /*
             // El fichero es remoto
             byte[] temp;
             if (b.length < blocksize) {
@@ -105,12 +102,9 @@ public class VenusFile {
                 }
                 // Acabamos leyendo los datos
                 temp = reader.read(temp.length);
-                
             }
 
-            return i; 
-            */
-            return 0;
+            return i;
         } else {
             // El fichero no es remoto
             // file.seek(0); Parece ser que no es un comportamieto deseado
@@ -134,7 +128,7 @@ public class VenusFile {
             // Se crea una copia en el cache
             // Se supone que se puede escribir, si no es el caso tendremos un error mas
             // adelante
-           /* file = new RandomAccessFile(cacheDir + fileName, mode);
+            file = new RandomAccessFile(cacheDir + fileName, mode);
             byte[] temp = new byte[blocksize];
             temp = null;
             System.out.println("We are going to download the files");
@@ -145,9 +139,7 @@ public class VenusFile {
                 temp = new byte[blocksize];
                 temp = reader.read(blocksize);
             }
-            fileChange = false; // Recuperamos el tamano */
-            return;
-
+            fileChange = false; // Recuperamos el tamano
         } // Eso no deberia existir pero por si acas
 
         System.out.println("File on Cache");
@@ -168,7 +160,6 @@ public class VenusFile {
     public void seek(final long p) throws RemoteException, IOException {
         if(p>file.length()){
             file.seek(file.length());
-            
         }else{
             file.seek(p);
         }
@@ -183,17 +174,12 @@ public class VenusFile {
         }else{
             file.setLength(l);
         }
-        fileChange = true;
     }
 
     public void close() throws RemoteException, IOException {
-        if (invalidate == true) {
+        if (file == null) {
             // El fichero es remoto, podemos suponer que no hubo modificaciones
-            System.out.println("El fichero a sido invalidado");
-            if(reader != null){
-                reader.close();
-            }
-            writer = null;
+            reader.close();
         } else if (fileChange == false){
             if(reader != null){
                 reader.close();
@@ -201,9 +187,7 @@ public class VenusFile {
             file.close();
         } else {
             // En ese caso puede haber modificaciones
-            if(reader != null){
-                reader.close(); // Vamos a necesitar un writer
-            }
+            reader.close(); // Vamos a necesitar un writer
             // @TODO verificar que hay modificaciones antes de hacer el writer
             writer = venus.srv.upload(fileName, mode, callback);
             // Tenemos acceso al fichero para poder escribir dentro
@@ -219,7 +203,6 @@ public class VenusFile {
                 temp = new byte[(int) (file.length())];
                 file.seek(0); //Colocamos el puntador al principio del documento
                 file.read(temp, 0, (int) (file.length()));
-                pointer = (int)file.length();
 
             } else {
                 temp = new byte[blocksize];

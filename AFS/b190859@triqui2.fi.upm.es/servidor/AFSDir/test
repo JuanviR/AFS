@@ -1,0 +1,3 @@
+Prueba del funcionamiento del programa usando un servidor de tipo AFS. En ese tipo de servidor el objetivo es mantener una copia en un servidor remoto y permitir a los clientes recuperar y trabajar con esa dicha copia. 
+En ese programa vamos a trabajar con bloques de tamano 1024 bytes para no saturar la conexion. Nuestro objetivo va a ser de anadir algunas palabras al final de este documento y cargarlo online.
+aaaEEEEEEEEEEEEEEEEEEEEEEEE"""""lll

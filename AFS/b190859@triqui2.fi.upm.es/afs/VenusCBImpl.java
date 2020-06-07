@@ -15,22 +15,15 @@ public class VenusCBImpl extends UnicastRemoteObject implements VenusCB {
     }
 
     public void invalidate(String fileName /* añada los parámetros que requiera */) throws RemoteException {
-        
-        if(venusFile.mode.equals("rw")){
-            return;
-        }else{
         System.out.println("Voy a invalidar el fichero: " + fileName);
     
-        
         File file = new File("Cache/" + fileName);
-        this.venusFile.invalidate = true;
             if (file.exists()) {
                 file.delete();
             }
             
             //Delete del file
         return;
-        }
     }
 }
 

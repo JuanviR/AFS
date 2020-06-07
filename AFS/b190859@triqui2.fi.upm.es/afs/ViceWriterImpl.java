@@ -41,12 +41,6 @@ public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
     }
 
     public void close() throws RemoteException {
-        try {
-			file.setLength(file.getFilePointer());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
         vice.lockManager.writeLock().unlock();
         VenusCB temp;
         try {
